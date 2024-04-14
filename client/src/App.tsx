@@ -1,8 +1,7 @@
 import React from 'react';
-import 'dotenv/config';
 
 const App = () => {
-  const key = process.env;
+  const key = import.meta.env;
   console.log(key);
 
   return (
