@@ -18,7 +18,7 @@ const getAuthHeaders = () => {
   };
 };
 
-export const createChat = createAsyncThunk('chat/createChat', async () => {
+export const addFriend = createAsyncThunk('chat/addFriend', async () => {
   try {
     const authHeaders = getAuthHeaders();
     const response = await axios.post(`${apiURL}/`, {}, {
@@ -32,57 +32,30 @@ export const createChat = createAsyncThunk('chat/createChat', async () => {
   }
 });
 
-export const fetchChats = createAsyncThunk('chat/fetchChats', async () => {
-  try {
-    const authHeaders = getAuthHeaders();
-    const response = await axios.get(`${apiURL}/`, {
-      headers: authHeaders,
-    });
-    toast.success('Fetched chats successfully!');
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    toast.error('Failed to fetch chats. Please try again.');
-    throw error;
-  }
-});
-
 const initialState = {
-  chats: [],
+  friendList: [],
   loading: false,
   error: null,
 };
 
 const chatSlice = createSlice({
-  name: 'chat',
+  name: 'friends',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createChat.pending, (state) => {
+      .addCase(addFriend.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(createChat.fulfilled, (state, action) => {
+      .addCase(addFriend.fulfilled, (state, action) => {
         state.loading = false;
         state.chats.unshift(action.payload);
       })
-      .addCase(createChat.rejected, (state, action) => {
+      .addCase(addFriend.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
-      .addCase(fetchChats.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchChats.fulfilled, (state, action) => {
-        state.loading = false;
-        state.chats = action.payload;
-      })
-      .addCase(fetchChats.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
   },
 });
 

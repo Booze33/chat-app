@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createChat } from '../../redux/chat/chatSlice';
+import ChatList from './getChat';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,10 @@ const Home = () => {
 
   return (
     <div>
-      <button onClick={handleClick}>Create Chat</button>
+      <ChatList />
+      <div>
+        <button onClick={handleClick}>Create Chat</button>
+      </div>
     </div>
   );
 };
